@@ -8,15 +8,41 @@
   unarchive: src=/tmp/wordpress.tar.gz dest=/var/www copy=no
   sudo: yes
 
+
+- name: create wp-content folder
+  file: path=/var/www/wordpress/wp-content state=directory
+
+- name: creating htaccess for wordpress
+  file: path=/var/www/wordpress/.htaccess state=touch owner=wordpress group=www-data mode=0664
+
 - name: creating dir for /tmp/wordpress
   command: mkdir -p /tmp/wordpress
 
-- name: get unique hash for wordpress
-  get_url: url="https://api.wordpress.org/secret-key/1.1/salt/" dest=/tmp/wordpress/wp_salt
+- name: setup the wordpress end configuration file
+  template: src=templates/end.j2 dest=/tmp/wordpress/wp-c
 
 - name: setup the wordpress configuration file
-  template: src=templates/wp-config.j2 dest=/tmp/wordpress/wp-config.php
+  template: src=templates/wp-config.j2 dest=/tmp/wordpress/wp-a
+
+- name: get unique hash for wordpress
+  get_url: url="https://api.wordpress.org/secret-key/1.1/salt/" dest=/tmp/wordpress/wp-b
+
 
 - name: assemble the wordpress configuration file
-  assemble: src=/tmp/wordpress dest=/var/www/wordpress/wp-config.php 
+  assemble: src=/tmp/wordpress/ dest=/var/www/wordpress/wp-config.php
+      
+- name: changing permissions of the wordpress folder
+  action: command chown -R www-data:www-data /var/www/wordpress
+
+
+#few other commands
+
+- name: other commands for permissions
+  action: command find /var/www/wordpress -type d -exec chmod g+s {} \;
+- name: other commands for permissions
+  action: command chmod g+w /var/www/wordpress/wp-content
+
+
+
+
 
