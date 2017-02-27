@@ -19,7 +19,7 @@ Ce qui doit être changé:
  mysql_root_password: 'Foo123'
 ```
 ## Run
-`ansible-playbook -i 'ip_address,' site.yml`
+`ansible-playbook -i 'ip_address,' playbook.yml`
 
 
 
