@@ -1,0 +1,19 @@
+---
+
+#update package and adding repo for php7.0
+- apt_key: url=https://www.dotdeb.org/dotdeb.gpg state=present
+- apt_repository: repo='deb http://packages.dotdeb.org jessie all' state=present filename="php7.0"
+- apt_repository: repo='deb-src http://packages.dotdeb.org jessie all' state=present filename="php7.0" update_cache='yes'
+
+#install php packages
+- name: General | Install php packages.
+  tags: packages
+  apt: pkg={{ item }} state=latest update_cache='yes'
+  with_items:
+    - php7.0
+    - php7.0-gd
+    - php7.0-cgi
+    - php7.0-curl
+    - php7.0-cli
+    - php7.0-mysql
+    - libapache2-mod-php7.0

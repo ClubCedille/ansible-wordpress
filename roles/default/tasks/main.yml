@@ -1,0 +1,4 @@
+---
+- name: "noop"
+  command: touch /dev/null
+  tags: noop

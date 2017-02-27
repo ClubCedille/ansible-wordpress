@@ -1,0 +1,31 @@
+---
+    # packages installation
+- name: General | Install required packages.
+  tags: packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - apache2
+    - apache2-utils
+##
+# Apache2 setup.
+#
+- name: Apache | Enable some required modules
+  action: command a2enmod rewrite vhost_alias expires
+  tags: common
+
+- name: Apache | Configuration file for our site
+  action: template src=templates/etc-apache2-sites-available-wordpress.j2 dest=/etc/apache2/sites-available/000-wordpress.conf
+  tags: common
+
+- name: Apache | Disable the default site
+  action: command a2dissite 000-default
+  tags: common
+
+- name: Apache | Enable our new site
+  action: command a2ensite 000-wordpress
+  tags: common
+
+- name: Restart Apache
+  action: service name=apache2 state=restarted
+  tags: common
+

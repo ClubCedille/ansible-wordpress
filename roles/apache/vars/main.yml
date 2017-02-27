@@ -1,0 +1,4 @@
+---
+# apache
+apache_server_admin: 'admin@foo.com'
+apache_server_alias: 'foo.com'
