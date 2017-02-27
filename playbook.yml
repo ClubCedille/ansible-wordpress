@@ -1,0 +1,15 @@
+##
+# Ansible playbook for setting up a LAMP development server on debian 8.
+#
+
+---
+- name: installation de LAMP in integration de wordpress
+  become: yes
+  remote_user: root
+  hosts: all
+  roles:
+     - default
+     - php
+     - apache
+     - mysql
+     - wordpress

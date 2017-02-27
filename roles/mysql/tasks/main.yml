@@ -1,0 +1,35 @@
+---
+    ##
+    # Apt package installation of mysql.
+    #
+- name: General | Install mysql packages.
+  tags: packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+##
+# MySQL database setup.
+#
+- name: MySQL | Configuration file, my.cnf
+  action: template src=templates/etc-mysql-my-cnf.j2 dest=/etc/mysql/my.cnf
+  tags: common
+
+- include: tasks/mysql-secure.yml
+
+##
+# Wordpress MySQL setup
+#
+- name: Wordpress MySQL database
+  mysql_db: name="{{ wp_mysql_db }}" state=present login_password="{{mysql_root_password}}"
+  tags: wp_mysql
+
+- name: Wordpress MySQL setup
+  mysql_user: name="{{ wp_mysql_user }}" password="{{wordpress_mysql_user_passwd}}" login_password="{{mysql_root_password}}" priv="*.*:ALL" state=present
+  tags: wp_mysql
+
+
+- name: Restart MySQL
+  action: service name=mysql state=restarted
+  tags: common

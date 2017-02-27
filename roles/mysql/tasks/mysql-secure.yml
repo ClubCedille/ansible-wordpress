@@ -1,0 +1,30 @@
+---
+##
+# MySQL database setup, this does the equivalent of mysql_secure_installation.
+#
+# Distribution independent.
+#
+- name: MySQL | Set the root password.
+  mysql_user: host="{{ item }}" name=root password="{{mysql_root_password}}" config_file="/root/.my.cnf" state=present
+  tags: mysql_root
+  with_items:
+    - "{{ server_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: MySQL | Config for easy access as root user
+  action: template src=templates/root-my-cnf.j2 dest=/root/.my.cnf
+  tags: common
+
+- name: MySQL | Delete anonymous MySQL server user for $server_hostname
+  mysql_user: user="" host="$server_hostname" state="absent" login_password="{{ mysql_root_password }}"
+  tags: common
+
+- name: MySQL | Delete anonymous MySQL server user for localhost
+  mysql_user: user="" host="{{server_hostname}}" state="absent" login_password="{{mysql_root_password}}"
+  tags: common
+
+- name: MySQL | Remove the MySQL test database
+  mysql_db: name=test state=absent login_password="{{mysql_root_password}}"
+  tags: common
