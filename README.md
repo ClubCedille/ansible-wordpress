@@ -17,7 +17,9 @@ Ce qui doit être changé:
  wp_mysql_user: 'wordpress'
 
  mysql_root_password: 'Foo123'
-
 ```
+## Run
+`ansible-playbook -i 'ip_address,' site.yml`
+
 
 
