@@ -16,6 +16,8 @@ Ce qui doit être changé:
  wp_mysql_db: 'wordpress'
  wp_mysql_user: 'wordpress'
 
+ wordpress_user_password: 'Foo123'
+
  mysql_root_password: 'Foo123'
 ```
 ## Run
