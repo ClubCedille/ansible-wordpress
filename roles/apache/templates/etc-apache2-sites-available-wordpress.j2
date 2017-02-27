@@ -1,7 +1,6 @@
 <VirtualHost *:80>
   ServerAdmin {{ apache_server_admin }}
   DocumentRoot /var/www/wordpress
-  ServerName {{ server_hostname }}
 
   <Directory /var/www/wordpress>
     Options FollowSymLinks MultiViews
