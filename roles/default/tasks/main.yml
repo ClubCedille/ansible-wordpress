@@ -3,4 +3,4 @@
 #  apt: update_cache=yes upgrade=yes
 
 - name: create wordpress user
-  user: name="wordpress" password="{{wordpress_user_password}}" group="sudo"
+  user: name="wordpress" password="{{wordpress_user_password}}"
